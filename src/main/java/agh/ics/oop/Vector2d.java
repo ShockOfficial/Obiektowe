@@ -55,4 +55,18 @@ public class Vector2d {
     public int hashCode() {
         return Objects.hash(x, y);
     }
+
+    public static void main(String[] args) {
+        Vector2d position1 = new Vector2d(1,2);
+        System.out.println(position1);
+        Vector2d position2 = new Vector2d(-2,1);
+        System.out.println(position2);
+        System.out.println(position1.add(position2));
+
+        // Check correctness
+        MapDirection a = MapDirection.WEST;
+        System.out.println(a.next());
+        System.out.println(a.previous());
+        System.out.println(a.toUnitVector());
+    }
 }
