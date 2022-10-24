@@ -9,6 +9,12 @@ build/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+out/
+.idea/
+.idea_modules/
+*.iml
+*.ipr
+*.iws
 *.iws
 *.iml
 *.ipr
