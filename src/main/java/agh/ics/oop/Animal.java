@@ -4,9 +4,7 @@ public class Animal {
     private  MapDirection orientation;
     private  Vector2d position;
     private final IWorldMap map;
-    public Animal(IWorldMap map) {
-        this.map = map;
-    }
+
     public Animal(IWorldMap map, Vector2d initialPosition) {
         this.map = map;
         this.position = initialPosition;
@@ -40,8 +38,13 @@ public class Animal {
             Vector2d unitVector = direction == MoveDirection.BACKWARD ? this.orientation.toUnitVector().opposite() :  this.orientation.toUnitVector();
             Vector2d tmpPosition = this.position.add(unitVector);
                 if (this.map.canMoveTo(tmpPosition)){
-                this.position = tmpPosition;
-            }
+                if (this.map instanceof GrassField && this.map.objectAt(tmpPosition) instanceof Grass){
+                    ((GrassField) this.map).eatGrass(tmpPosition);
+
+                }
+                    this.position = tmpPosition;
+
+                }
 
         }
     }

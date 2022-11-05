@@ -19,7 +19,6 @@ public class AnimalIntegrationTest {
     @Test
     public void runTest() {
 
-
         MoveDirection[] directions =  parser.parse(new String[]{"f" ,"b" ,"r" ,"l" ,"f" ,"f" ,"r","r" ,"f" ,"f" ,"f","f", "f","f","f", "f"});
         assertArrayEquals(directions, new MoveDirection[]{MoveDirection.FORWARD, MoveDirection.BACKWARD, MoveDirection.RIGHT, MoveDirection.LEFT, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.RIGHT, MoveDirection.RIGHT, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.FORWARD});
 
@@ -32,9 +31,6 @@ public class AnimalIntegrationTest {
         assertTrue(animal2.isAt(new Vector2d(3,4)));
 
         engine.run();
-
-        assertTrue(animal1.isAt(new Vector2d(3,0)));
-        assertTrue(animal2.isAt(new Vector2d(2,4)));
 
         assertEquals("S", animal1.toString());
         assertEquals("N", animal2.toString());

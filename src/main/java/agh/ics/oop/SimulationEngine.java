@@ -24,11 +24,10 @@ public class SimulationEngine implements IEngine{
             Animal animal =this.animals.get(i % this.animals.size());
             Vector2d prevPosition = animal.getPosition();
             animal.move(this.moveArr[i]);
-            if (this.map.place(animal)){
-                RectangularMap map = (RectangularMap) this.map;
-                map.clearPreviousPosition(prevPosition);
-            }
-
+//            if(this.map.place(animal)) {
+//            ((AbstractWorldMap) this.map).clearPreviousLocation(prevPosition);
+//            }
+            System.out.println(this.map.toString());
         }
     }
 }
