@@ -13,7 +13,7 @@ public class RectangularMap extends AbstractWorldMap implements IWorldMap {
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        return position.x < width  && position.y < height && super.canMoveTo(position);
+        return position.x < width && position.x >= 0  && position.y < height && position.y >= 0 && super.canMoveTo(position);
     };
 
     @Override
@@ -28,12 +28,7 @@ public class RectangularMap extends AbstractWorldMap implements IWorldMap {
 
     @Override
     public Object objectAt(Vector2d position) {
-        for (Animal animal: this.animals) {
-            if (animal.getPosition().equals(position)){
-                return animal;
-            }
-        }
-        return null;
+        return this.animals.get(position);
     }
     @Override
     public String toString() {

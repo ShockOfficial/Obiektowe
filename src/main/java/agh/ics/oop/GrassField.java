@@ -1,16 +1,13 @@
 package agh.ics.oop;
 
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 public class GrassField extends AbstractWorldMap implements IWorldMap {
-    ArrayList<Grass> grasses;
+    Map<Vector2d,Grass> grasses = new HashMap<>();
     private final MapVisualizer map = new MapVisualizer(this);
     private int numberOfGrass;
     private final int initialNumberOfGrass;
     public GrassField(int numberOfGrass) {
-        this.grasses = new ArrayList<>();
         this.initialNumberOfGrass = numberOfGrass;
         this.sowGrass();
     }
@@ -21,23 +18,17 @@ public class GrassField extends AbstractWorldMap implements IWorldMap {
             int max = (int) Math.sqrt(numberOfGrass * 10);
             Vector2d tmpPosition = new Vector2d(random.nextInt(max + 1), random.nextInt(max + 1));
             if (!isOccupied(tmpPosition)){
-                this.grasses.add(new Grass(tmpPosition));
+                this.grasses.put(tmpPosition,new Grass(tmpPosition));
                 this.numberOfGrass++;
             }
         }
     }
 
     public void eatGrass(Vector2d position) {
-        for (int i = 0; i < this.grasses.size(); i ++) {
-            if (this.grasses.get(i).getPosition().equals(position)) {
-                this.grasses.remove(i);
-                this.numberOfGrass--;
-                this.sowGrass();
-                break;
-            }
-        }
+        this.grasses.remove(position);
+        this.numberOfGrass--;
+        this.sowGrass();
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -53,42 +44,25 @@ public class GrassField extends AbstractWorldMap implements IWorldMap {
 
     @Override
     public Object objectAt(Vector2d position) {
-        for (Animal animal: this.animals) {
-            if(animal.getPosition().equals(position)){
-                return animal;
-            }
-        }
-        for (Grass grass : this.grasses) {
-            if (grass.getPosition().equals(position)) {
-                return grass;
-            }
-        }
-        return null;
-    }
-
-    public ArrayList<Vector2d> mergeLists() {
-        ArrayList<Vector2d> newList = new ArrayList<>();
-        for (Animal animal: this.animals) {
-            newList.add(animal.getPosition());
-        }
-        for (Grass grass : this.grasses) {
-            newList.add(grass.getPosition());
-        }
-        return newList;
+        return this.animals.get(position) == null ? this.grasses.get(position) : this.animals.get(position);
     }
 
     public Vector2d getUpperRight() {
         Vector2d upperRight = new Vector2d(0,0);
-        ArrayList<Vector2d> mergedList = mergeLists();
-        for (Vector2d vector2d: mergedList){
+        for (Vector2d vector2d: this.animals.keySet()){
+            upperRight = upperRight.upperRight(vector2d);
+        }
+        for (Vector2d vector2d: this.grasses.keySet()){
             upperRight = upperRight.upperRight(vector2d);
         }
         return upperRight;
     }
     public Vector2d getLowerLeft() {
         Vector2d lowerLeft = new Vector2d(0,0);
-        ArrayList<Vector2d> mergedList = mergeLists();
-        for (Vector2d vector2d: mergedList){
+        for (Vector2d vector2d: this.animals.keySet()){
+            lowerLeft = lowerLeft.lowerLeft(vector2d);
+        }
+        for (Vector2d vector2d: this.grasses.keySet()){
             lowerLeft = lowerLeft.lowerLeft(vector2d);
         }
         return lowerLeft;

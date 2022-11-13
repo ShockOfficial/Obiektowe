@@ -26,10 +26,12 @@ public class GrassFiledTest {
         assertFalse(map.place(animal2));
 
         // isOccupied
+        // Może nie działać czasem ze wzlędu na losowość rozkladu trawy
         assertTrue(map.isOccupied(new Vector2d(2,2)));
         assertFalse(map.isOccupied(new Vector2d(3,0)));
 
         // objectAt
+        // Może nie działać czasem ze względu na losowość trawy
         assertEquals(map.objectAt(new Vector2d(2, 2)), animal1);
         assertNull(map.objectAt(new Vector2d(4, 4)));
 

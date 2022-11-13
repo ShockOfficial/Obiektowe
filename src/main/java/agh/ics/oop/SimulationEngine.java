@@ -22,11 +22,7 @@ public class SimulationEngine implements IEngine{
     public void run() {
         for (int i = 0; i < this.moveArr.length; i++) {
             Animal animal =this.animals.get(i % this.animals.size());
-            Vector2d prevPosition = animal.getPosition();
             animal.move(this.moveArr[i]);
-//            if(this.map.place(animal)) {
-//            ((AbstractWorldMap) this.map).clearPreviousLocation(prevPosition);
-//            }
             System.out.println(this.map.toString());
         }
     }
