@@ -15,13 +15,13 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
         return true;
     }
     @Override
-    public boolean place(Animal animal) {
-        if (this.canMoveTo(animal.getPosition())){
-            this.animals.put(animal.getPosition(),animal);
+    public boolean place(Animal animal) throws IllegalArgumentException  {
+        if (this.canMoveTo(animal.getPosition())) {
+            this.animals.put(animal.getPosition(), animal);
             animal.addObserver(this);
             return true;
         }
-        return false;
+        throw new IllegalArgumentException(animal.getPosition() + "is already taken!");
     }
     @Override
     public boolean isOccupied(Vector2d position) {
@@ -35,7 +35,6 @@ public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObse
            this.animals.put(newPosition,animal);
        }
     };
-
     public abstract Vector2d getUpperRight();
 
     public abstract Vector2d getLowerLeft();

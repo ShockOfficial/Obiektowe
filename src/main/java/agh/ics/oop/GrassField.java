@@ -5,6 +5,7 @@ import java.util.*;
 public class GrassField extends AbstractWorldMap implements IWorldMap {
     Map<Vector2d,Grass> grasses = new HashMap<>();
     private final MapVisualizer map = new MapVisualizer(this);
+    private final MapBoundary mapBoundary = new MapBoundary();
     private int numberOfGrass;
     private final int initialNumberOfGrass;
     public GrassField(int numberOfGrass) {
@@ -19,6 +20,7 @@ public class GrassField extends AbstractWorldMap implements IWorldMap {
             Vector2d tmpPosition = new Vector2d(random.nextInt(max + 1), random.nextInt(max + 1));
             if (!isOccupied(tmpPosition)){
                 this.grasses.put(tmpPosition,new Grass(tmpPosition));
+                this.mapBoundary.addToSet(tmpPosition);
                 this.numberOfGrass++;
             }
         }
@@ -26,9 +28,21 @@ public class GrassField extends AbstractWorldMap implements IWorldMap {
 
     public void eatGrass(Vector2d position) {
         this.grasses.remove(position);
+        this.mapBoundary.removeFromSet(position);
         this.numberOfGrass--;
         this.sowGrass();
     }
+
+    @Override
+    public boolean place(Animal animal) throws IllegalArgumentException {
+         if(super.place(animal)){
+             this.mapBoundary.addToSet(animal.getPosition());
+             animal.addObserver(this.mapBoundary);
+             return true;
+         };
+         throw new IllegalArgumentException(animal.getPosition() + " is already taken!");
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -48,24 +62,10 @@ public class GrassField extends AbstractWorldMap implements IWorldMap {
     }
 
     public Vector2d getUpperRight() {
-        Vector2d upperRight = new Vector2d(0,0);
-        for (Vector2d vector2d: this.animals.keySet()){
-            upperRight = upperRight.upperRight(vector2d);
-        }
-        for (Vector2d vector2d: this.grasses.keySet()){
-            upperRight = upperRight.upperRight(vector2d);
-        }
-        return upperRight;
+        return this.mapBoundary.getUpperRight();
     }
     public Vector2d getLowerLeft() {
-        Vector2d lowerLeft = new Vector2d(0,0);
-        for (Vector2d vector2d: this.animals.keySet()){
-            lowerLeft = lowerLeft.lowerLeft(vector2d);
-        }
-        for (Vector2d vector2d: this.grasses.keySet()){
-            lowerLeft = lowerLeft.lowerLeft(vector2d);
-        }
-        return lowerLeft;
+        return this.mapBoundary.getLowerLeft();
     }
     // Can be moved to AbstractWorldMap
     @Override

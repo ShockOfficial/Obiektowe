@@ -22,8 +22,8 @@ public class GrassFiledTest {
         // place
         assertTrue(map.place(animal1));
         assertTrue(map.place(animal2));
-        assertFalse(map.place(animal1));
-        assertFalse(map.place(animal2));
+        assertThrows(IllegalArgumentException.class, () -> map.place(animal1));
+        assertThrows(IllegalArgumentException.class, () -> map.place(animal2));
 
         // isOccupied
         // Może nie działać czasem ze wzlędu na losowość rozkladu trawy
