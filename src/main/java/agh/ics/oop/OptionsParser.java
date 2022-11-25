@@ -2,7 +2,7 @@ package agh.ics.oop;
 
 import java.util.ArrayList;
 public class OptionsParser {
-    public MoveDirection[] parse(String[] directives) throws IllegalArgumentException {
+    public static MoveDirection[] parse(String[] directives) throws IllegalArgumentException {
         ArrayList<MoveDirection> outputDirectives = new ArrayList<>();
         for (String directive:
              directives) {

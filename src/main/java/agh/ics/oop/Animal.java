@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Animal {
+public class Animal implements IMapElement {
     private  MapDirection orientation;
     private  Vector2d position;
     private final IWorldMap map;
-    private List<IPositionChangeObserver> observerList;
+    private final List<IPositionChangeObserver> observerList;
 
     public Animal(IWorldMap map, Vector2d initialPosition) {
         this.map = map;
@@ -46,6 +46,16 @@ public class Animal {
 
     boolean isAt(Vector2d position) {
         return this.position.equals(position);
+    }
+
+    @Override
+    public String getImagePath() {
+        return switch (this.toString()){
+            case "N" -> "up.png";
+            case "S" -> "down.png";
+            case "W" -> "left.png";
+            default ->  "right.png";
+        };
     }
 
     void move(MoveDirection direction){
